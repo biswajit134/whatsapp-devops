@@ -1,0 +1,30 @@
+# ===========================================
+# .gitignore — ConnectApp monorepo
+# ===========================================
+
+# ── Environment secrets (NEVER commit these) ──
+
+
+# ── Node dependencies ──
+node_modules/
+*/node_modules/
+
+# ── Build outputs ──
+frontend/dist/
+frontend/build/
+
+# ── Logs ──
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+
+# ── Editor ──
+.vscode/
+.idea/
+
+# Keep the example template (safe to commit)

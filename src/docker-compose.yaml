@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongo:
+    image: mongo:latest
+    container_name: whatsapp_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  # Node.js Express Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: whatsapp_backend
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - NODE_ENV=production
+      # Important: In Docker Compose, the backend connects to MongoDB using the service name 'mongo'
+      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+      # URL of the frontend (for CORS restrictions). Browsers drop the :80 port.
+      - FRONTEND_URL=http://localhost
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  # React Vite Frontend Service (Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:9000
+        - VITE_NEWSFEED_API_URL=http://localhost:9001
+        - VITE_STATUS_API_URL=http://localhost:9002
+        - VITE_REELS_API_URL=http://localhost:9003
+    container_name: whatsapp_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - newsfeed
+      - status
+      - reels
+    restart: unless-stopped
+
+  # Newsfeed Microservice
+  newsfeed:
+    build:
+      context: ./newsfeed
+      dockerfile: Dockerfile
+    container_name: whatsapp_newsfeed
+    ports:
+      - "9001:9001"
+    environment:
+      - PORT=9001
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  # Status Microservice
+  status:
+    build:
+      context: ./status
+      dockerfile: Dockerfile
+    container_name: whatsapp_status
+    ports:
+      - "9002:9002"
+    environment:
+      - PORT=9002
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  # Reels Microservice
+  reels:
+    build:
+      context: ./reels
+      dockerfile: Dockerfile
+    container_name: whatsapp_reels
+    ports:
+      - "9003:9003"
+    environment:
+      - PORT=9003
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+# Persistent volume for the database
+volumes:
+  mongo_data:

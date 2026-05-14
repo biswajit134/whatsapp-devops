@@ -1,0 +1,235 @@
+/* ================================================================
+   RESPONSIVE.CSS — Global Breakpoints for ConnectApp
+   Breakpoints:
+     Mobile   : < 768px
+     Tablet   : 768px – 1023px
+     Desktop  : ≥ 1024px  (default, no overrides needed)
+   ================================================================ */
+
+/* ──────────────────────────────────────────
+   TABLET  (768px – 1023px)
+   ────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 260px;
+    min-width: 240px;
+  }
+  .ms-root {
+    width: 240px;
+    min-width: 220px;
+  }
+
+  /* ── Nav labels hidden → icon-only ── */
+  .sidebar__nav-label,
+  .ms-nav-label { display: none; }
+
+  .sidebar__nav-btn,
+  .ms-nav-btn { padding: 10px 4px; }
+
+  /* ── Filter tabs compact ── */
+  .sidebar__filter-tab { font-size: 10px; padding: 5px 4px; }
+
+  /* ── Newsfeed single-col ── */
+  .newsfeed-content { flex-direction: column; gap: 16px; }
+  .newsfeed-sidebar-col { display: none; }
+
+  /* ── Chat header ── */
+  .chat__header-name { font-size: 14px; }
+  .chat__header-status { font-size: 11px; }
+}
+
+/* ──────────────────────────────────────────
+   MOBILE  (< 768px)
+   ────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* ══ APP BODY: stacked, full-width ══ */
+  .app__body {
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ══ CHAT SIDEBAR (rooms) ══
+     Hidden by default; shown via .sidebar--open class */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    z-index: 500;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+  }
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  /* ══ MEDIA SIDEBAR (newsfeed/reels/status) ══ */
+  .ms-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    z-index: 500;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+  }
+  .ms-root--open {
+    transform: translateX(0);
+  }
+
+  /* ══ CHAT ══ */
+  .chat {
+    width: 100vw;
+    min-width: 0;
+    flex: 1;
+  }
+
+  /* Mobile hamburger button — shown on mobile only */
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  /* Back button in chat header */
+  .chat__back-btn {
+    display: flex !important;
+  }
+
+  /* Chat header: tighter */
+  .chat__header {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .chat__header-name { font-size: 14px; }
+
+  /* Hide call buttons text, keep icons */
+  .chat__header-action span.btn-label { display: none; }
+
+  /* Footer smaller */
+  .chat__footer { height: 58px; padding: 0 8px; gap: 4px; }
+  .chat__footer-icon { padding: 6px; }
+  .chat__send-btn { width: 40px; height: 40px; }
+  .chat__mic-btn  { width: 38px; height: 38px; }
+  .chat__input-form { height: 40px; padding: 0 12px; }
+
+  /* ══ NEWSFEED ══ */
+  .newsfeed-container { height: auto; min-height: 100vh; overflow-y: auto; }
+  .nf-mobile-bar      { display: flex; }  /* show the mobile top bar */
+  .newsfeed-content   { flex-direction: column; gap: 12px; padding: 12px; overflow-y: visible; }
+  .newsfeed-sidebar-col { display: none; }
+  .newsfeed-feed-col  { width: 100%; }
+
+  /* Create post card */
+  .create-post-card { border-radius: 12px; }
+
+  /* Post card */
+  .post-card { border-radius: 12px; margin: 0; }
+  .post-actions { flex-wrap: wrap; gap: 4px; }
+  .post-action-btn { font-size: 12px; padding: 8px; }
+
+  /* ══ REELS ══ */
+  .reels-page  { height: 100vh; position: relative; }
+  .reels-feed  { height: 100vh; }
+  .reel-snap   { height: 100vh; }
+  .reel-card   { max-width: 100vw; }
+  .reels-mobile-menu { display: flex !important; }   /* show overlay menu btn */
+
+  /* ══ STATUS ══ */
+  .status-page   { flex-direction: column; }
+  .status-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .status-main { width: 100%; flex: 1; }
+  .status-viewer { border-radius: 0; }
+
+  /* ══ MEDIA SIDEBAR section content ══ */
+  .ms-section { padding: 10px; }
+  .ms-quick-links { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .ms-quick-link { padding: 8px; font-size: 11px; }
+
+  /* Nav tabs tighter */
+  .sidebar__nav { padding: 6px 8px; gap: 2px; }
+  .ms-nav       { padding: 6px 8px; gap: 2px; }
+  .sidebar__nav-btn,
+  .ms-nav-btn   { padding: 8px 3px; font-size: 9px; }
+  .sidebar__nav-btn .material-icons,
+  .ms-nav-btn .material-icons { font-size: 20px !important; }
+  .sidebar__nav-label,
+  .ms-nav-label { display: none; }
+
+  /* Profile card compact */
+  .sidebar__profile-card { padding: 10px 14px; }
+  .ms-profile-card        { padding: 10px 14px; }
+  .sidebar__user-desc, .ms-profile-desc { display: none; }
+
+  /* Filter tabs stack */
+  .sidebar__filter-tabs { gap: 4px; padding: 6px 10px; }
+  .sidebar__filter-tab  { font-size: 10px; padding: 5px 4px; }
+
+  /* ══ AUTH ══ */
+  .auth-container {
+    width: 100vw;
+    min-height: 100vh;
+    border-radius: 0;
+    flex-direction: column !important;
+  }
+  .sign-in-container,
+  .sign-up-container {
+    width: 100% !important;
+    padding: 40px 24px !important;
+  }
+  .overlay-container { display: none; }
+
+  /* ══ MODALS ══ */
+  .modal-content  { width: 95vw; border-radius: 14px; }
+  .ms-modal       { width: 95vw; border-radius: 14px; }
+  .reels-modal    { width: 95vw; border-radius: 14px; }
+
+  /* ══ SIDEBAR SECTION LABEL ══ */
+  .sidebar__section-label { padding: 8px 12px 4px; font-size: 10px; }
+
+  /* ══ SIDEBARCHA ══ */
+  .sidebarChat { min-height: 60px; padding: 8px 12px; }
+  .sidebarChat__avatar { width: 42px; height: 42px; }
+  .sidebarChat__avatar-img { width: 42px; height: 42px; }
+  .sidebarChat__avatar-placeholder { font-size: 42px !important; }
+  .sidebarChat__group-icon { width: 42px; height: 42px; }
+  .sidebarChat__name { font-size: 14px; }
+
+  /* ══ MOBILE OVERLAY backdrop ══ */
+  .mobile-overlay {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 499;
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* ──────────────────────────────────────────
+   SMALL MOBILE  (< 400px)
+   ────────────────────────────────────────── */
+@media (max-width: 399px) {
+  .chat__footer-icon { padding: 4px; font-size: 20px !important; }
+  .chat__send-btn    { width: 36px; height: 36px; }
+  .chat__input-form  { height: 38px; padding: 0 10px; }
+  .chat__footer      { padding: 0 6px; gap: 3px; }
+  .reel-actions      { gap: 14px; }
+  .ms-quick-links    { grid-template-columns: 1fr; }
+}
