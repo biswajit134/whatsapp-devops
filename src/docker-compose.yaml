@@ -5,6 +5,9 @@ services:
     container_name: whatsapp_mongo
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongo_data:/data/db
     restart: unless-stopped
@@ -19,7 +22,7 @@ services:
       - PORT=9000
       - NODE_ENV=production
       # Important: In Docker Compose, the backend connects to MongoDB using the service name 'mongo'
-      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+      - MONGO_URI=mongodb://root:example@mongo:27017/whatsappdb
       # URL of the frontend (for CORS restrictions). Browsers drop the :80 port.
       - FRONTEND_URL=http://localhost
     depends_on:
@@ -53,7 +56,7 @@ services:
     environment:
       - PORT=9001
       - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+      - MONGO_URI=mongodb://root:example@mongo:27017/whatsappdb
     depends_on:
       - mongo
     restart: unless-stopped
@@ -67,7 +70,7 @@ services:
     environment:
       - PORT=9002
       - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+      - MONGO_URI=mongodb://root:example@mongo:27017/whatsappdb
     depends_on:
       - mongo
     restart: unless-stopped
@@ -81,7 +84,7 @@ services:
     environment:
       - PORT=9003
       - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/whatsappdb
+      - MONGO_URI=mongodb://root:example@mongo:27017/whatsappdb
     depends_on:
       - mongo
     restart: unless-stopped
